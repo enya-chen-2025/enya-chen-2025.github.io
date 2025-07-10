@@ -3,7 +3,7 @@
     <p>你認識 vipop b team 的成員嗎？ 快來確認一下吧！</p>
     <BaseButton
       :text="'nexPage'"
-      :background-color="ButtonColor.Green"
+      :background-color="ButtonColor.White"
       @click="nextPage"
     />
     <router-view />
