@@ -2,7 +2,7 @@
   <div>
     <p>你認識 vipop b team 的成員嗎？ 快來確認一下吧！</p>
     <BaseButton
-      :text="'nexPage'"
+      :text="'開始作答'"
       :background-color="ButtonColor.White"
       @click="nextPage"
     />
