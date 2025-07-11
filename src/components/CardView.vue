@@ -3,18 +3,18 @@
     <div class="card-img">
       <img :src="src" class="card-img-top" />
     </div>
-    <div v-show="ifShow" class="card-body">
-      <h4>請選擇正確答案</h4>
-    </div>
-    <div v-for="option in options">
-      <BaseButton
-        :text="option.value"
-        :data="option.value"
-        :background-color="
-          currentAns === option.value ? ButtonColor.White : ButtonColor.Green
-        "
-        @click="onClick"
-      />
+    <div class="card-body">
+      <h4 v-show="ifShow">請選擇正確答案</h4>
+      <div v-for="option in options" class="btns">
+        <BaseButton
+          :text="option.label"
+          :data="option.value"
+          :background-color="
+            currentAns === option.value ? ButtonColor.Green : ButtonColor.White
+          "
+          @click="onClick"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -34,7 +34,6 @@ export default {
     };
   },
   props: {
-    // from Question page//
     src: {
       type: String,
       required: true,
@@ -51,6 +50,15 @@ export default {
       type: Boolean,
       required: true,
     },
+    text: {
+      type: String,
+    },
+    data: {
+      type: String,
+    },
+    isResult: {
+      type: Boolean,
+    },
   },
   created() {
     this.ansList = this.$store.state.ansList;
@@ -65,13 +73,13 @@ export default {
         this.optionIndex = this.options.findIndex(
           (option) => option.value === this.currentAns
         );
-        console.log("index:", this.optionIndex);
 
         this.$store.commit("answerList/addList", {
+          name: this.name,
           value: this.currentAns,
           img: this.src,
-          label: this.options[this.optionIndex].label,
           isAns: this.options[this.optionIndex].isAns,
+          options: this.options,
         });
       }
     },
@@ -88,6 +96,7 @@ export default {
   background-color: white;
   border: 1px solid gainsboro;
   border-radius: 0.25rem;
+  overflow: hidden;
 }
 
 .card-img {
@@ -95,6 +104,7 @@ export default {
   width: 100%;
   height: 240px;
   overflow: hidden;
+  margin-bottom: 5px;
 }
 
 .card-img-top {
@@ -105,5 +115,9 @@ export default {
   display: block;
   object-fit: cover;
   object-position: center center;
+}
+
+.btns {
+  margin-top: 5%;
 }
 </style>
