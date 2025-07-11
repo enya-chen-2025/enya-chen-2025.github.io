@@ -9,17 +9,7 @@
         <BaseButton
           :text="option.label"
           :data="option.value"
-          :background-color="
-            isResult
-              ? option.isAns
-                ? ButtonColor.Green
-                : option.isAns == option.isSelected
-                ? ButtonColor.White
-                : ButtonColor.Red
-              : currentAns === option.value
-              ? ButtonColor.Green
-              : ButtonColor.White
-          "
+          :background-color="btnColor(option, isResult, currentAns)"
           @click="onClick"
         />
       </div>
@@ -73,6 +63,19 @@ export default {
     this.ansList = this.$store.state.ansList;
   },
   methods: {
+    btnColor(option, isResult, currentAns) {
+      if (isResult) {
+        return option.isAns
+          ? ButtonColor.Green
+          : option.isAns == option.isSelected
+          ? ButtonColor.White
+          : ButtonColor.Red;
+      } else {
+        return currentAns === option.value
+          ? ButtonColor.Green
+          : ButtonColor.White;
+      }
+    },
     onClick(e, ans) {
       if (this.currentAns == ans) {
         this.currentAns = "";
