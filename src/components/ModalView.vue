@@ -2,7 +2,7 @@
   <div class="modal-overlay" v-if="show" @click.self="close">
     <div class="modal-content">
       <div class="modal-title">
-        <h4>Ranking</h4>
+        <h3>Ranking</h3>
         <button class="modal-btn" @click="close">×</button>
       </div>
       <slot />
@@ -60,6 +60,7 @@ export default {
   max-height: fit-content;
   width: 90%;
   overflow: hidden;
+  transition: all 5s ease-in;
 }
 
 @media (min-width: 400px) {
