@@ -63,7 +63,7 @@ function onClick(event) {
 }
 
 .button--green {
-  background-color: aquamarine;
+  background-color: #9fe2bf;
 }
 
 .button--white {
@@ -71,6 +71,6 @@ function onClick(event) {
 }
 
 .button--red {
-  background-color: red;
+  background-color: #f08080;
 }
 </style>
