@@ -10,7 +10,15 @@
           :text="option.label"
           :data="option.value"
           :background-color="
-            currentAns === option.value ? ButtonColor.Green : ButtonColor.White
+            isResult
+              ? option.isAns
+                ? ButtonColor.Green
+                : option.isAns == option.isSelected
+                ? ButtonColor.White
+                : ButtonColor.Red
+              : currentAns === option.value
+              ? ButtonColor.Green
+              : ButtonColor.White
           "
           @click="onClick"
         />
@@ -58,6 +66,7 @@ export default {
     },
     isResult: {
       type: Boolean,
+      default: false,
     },
   },
   created() {
