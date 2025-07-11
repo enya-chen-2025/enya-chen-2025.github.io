@@ -1,19 +1,36 @@
 <template>
   <div>
+    <div class="all-correct" v-show="score == 8">
+      <p>\ 恭喜全部答對 /</p>
+    </div>
     <div class="check-rank">
       <BaseButton
-        :text="'查看排行榜'"
+        :text="'查看分數&排行'"
         :background-color="ButtonColor.White"
         @click="openModal"
       />
     </div>
-    <ModalView :show="showModal" @close="closeModal">
-      <div v-for="(rank, index) in rankList.slice(0, 10)" :key="rank.name">
-        <p class="modal-p">{{ rank.name }} 的分數：{{ rank.value }}</p>
-      </div>
-    </ModalView>
+    <div>
+      <Transition name="fade">
+        <ModalView :show="showModal" @close="closeModal">
+          <p>{{ userName }} 的分數：{{ score }}/8</p>
+          <div
+            v-for="(rank, index) in rankList.slice(0, 10)"
+            :key="rank.name"
+            class="modal-list"
+          >
+            <h3>
+              {{ index + 1 }}
+            </h3>
+            <h4>
+              {{ rank.name }}
+            </h4>
+            <h4>{{ rank.value }}分</h4>
+          </div>
+        </ModalView>
+      </Transition>
+    </div>
   </div>
-  <!-- <p>{{ userName }} 的分數：{{ score }}/8</p> -->
   <div class="cards">
     <CardView
       v-for="ans in userAns"
@@ -47,7 +64,17 @@ export default {
   },
   created() {
     this.userAns = this.$store.getters["answerList/getWrongAns"];
-    this.userName = window.prompt("請輸入你的名字：");
+
+    let name = "";
+
+    do {
+      name = window.prompt("請輸入你的名字：");
+      if (name.length > 10) {
+        window.alert("字數不能超過10");
+      }
+    } while (!name || name.length > 10 || name.trim().length == 0);
+    this.userName = name;
+
     this.score = this.$store.getters["answerList/getScore"](this.userName);
     this.rankList = this.$store.getters["answerList/getLocalStorage"];
     console.log(this.userAns);
@@ -69,10 +96,37 @@ export default {
   margin-bottom: 50px;
 }
 
-.modal-p {
-  overflow-wrap: break-word;
-  white-space: nowrap;
+.modal-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  max-width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.modal-list > * {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.rank-list {
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 80%;
+}
+
+.all-correct {
+  border-radius: 0.25rem;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
