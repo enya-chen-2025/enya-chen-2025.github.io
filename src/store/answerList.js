@@ -10,9 +10,17 @@ const getters = {
     return state.ansList.length
   },
 
-  getScore:(stat)=>(userName)=> {
+//   getScore:(stat)=>(userName)=> {
+//   const score = state.ansList.filter((item)=> item.isAns == true)
+//   // localStorage.setItem("user-"+userName,score.length)
+
+//   return score.length;
+// },
+
+getScore(state){
+  console.log("getScore now...")
   const score = state.ansList.filter((item)=> item.isAns == true)
-  localStorage.setItem("user-"+userName,score.length)
+  // localStorage.setItem("user-"+userName,score.length)
 
   return score.length;
 },
@@ -43,6 +51,7 @@ for(let i=0;i<localStorage.length;i++){
   const key = localStorage.key(i)
   if(key.startsWith("user-")){
     const value = Number(localStorage.getItem(key))
+    
     if (value>-1){
         const name = key.slice(5)
         state.rankingList.push({name,value})
@@ -51,6 +60,7 @@ for(let i=0;i<localStorage.length;i++){
 }
 
   state.rankingList.sort((firstItem, secondItem) => firstItem.value - secondItem.value).reverse()
+  
   return state.rankingList
 }
 
