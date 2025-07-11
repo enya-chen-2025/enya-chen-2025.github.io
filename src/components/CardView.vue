@@ -116,6 +116,14 @@ export default {
   margin-bottom: 5px;
 }
 
+.card-img img {
+  transition: all 0.3s ease-in-out;
+}
+
+.card-img:hover img {
+  transform: scale(1.25);
+}
+
 .card-img-top {
   width: 100%;
   height: 100%;

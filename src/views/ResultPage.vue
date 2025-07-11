@@ -72,12 +72,17 @@ export default {
       if (name.length > 10) {
         window.alert("字數不能超過10");
       }
+      if (name.trim().length == 0) {
+        alert("不能空白！");
+      }
     } while (!name || name.length > 10 || name.trim().length == 0);
     this.userName = name;
 
-    this.score = this.$store.getters["answerList/getScore"](this.userName);
+    this.score = this.$store.getters["answerList/getScore"];
+    localStorage.setItem("user-" + this.userName, this.score);
+
     this.rankList = this.$store.getters["answerList/getLocalStorage"];
-    console.log(this.userAns);
+    console.log(this.rankList);
   },
   methods: {
     openModal() {
