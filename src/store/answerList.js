@@ -10,30 +10,14 @@ const getters = {
     return state.ansList.length
   },
 
-//   getScore:(stat)=>(userName)=> {
-//   const score = state.ansList.filter((item)=> item.isAns == true)
-//   // localStorage.setItem("user-"+userName,score.length)
-
-//   return score.length;
-// },
-
 getScore(state){
-  console.log("getScore now...")
   const score = state.ansList.filter((item)=> item.isAns == true)
-  // localStorage.setItem("user-"+userName,score.length)
-
   return score.length;
 },
 
 getWrongAns(state){
   const wrong = state.ansList.filter(item => item.isAns == false)
-  // const wrong = state.ansList.filter(item => {
-  //    return item.options.filter((option)=>{
-  //     option.label
-  //   })
-  // })
 
-  console.log("1)wrong:",wrong)
   wrong.forEach(item => {
     item.options.forEach((option)=>{
       if(item.isAns==false && item.value!==option.value){
@@ -41,7 +25,6 @@ getWrongAns(state){
       }
     })
   });
-  console.log("2)wrong:",wrong)
 
   return wrong
 },
