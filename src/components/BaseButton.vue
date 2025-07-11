@@ -52,6 +52,10 @@ function onClick(event) {
   width: 10rem;
   margin-top: 5px;
   border: 1px solid gainsboro;
+  overflow-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .button:hover {
