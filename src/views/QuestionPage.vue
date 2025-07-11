@@ -9,10 +9,11 @@
       :ifShow="ifShow"
     />
   </div>
+
   <div class="button">
     <BaseButton
       :text="'submit'"
-      :background-color="ButtonColor.Green"
+      :background-color="ButtonColor.White"
       @click="submit"
     />
   </div>
@@ -117,22 +118,11 @@ export default {
       ButtonColor,
       userAns: [],
       ifShow: true,
+      rank: [],
     };
   },
-
   methods: {
-    // fromCardData(name, value, ans, buttonCheck, img) {
-    //   const newAns = { name, value, ans, buttonCheck, img };
-    //   this.userAns.push({ name, value, ans, buttonCheck, img });
-    //   const isExist = this.userAns.some((obj) => obj.name == name);
-    //   if (isExist) {
-    //     this.userAns = this.userAns.filter((obj) => obj.name !== name);
-    //     this.userAns.push(newAns);
-    //     console.log("user arr:", this.userAns);
-    //   }
-    // },
     submit() {
-      console.log(this.$store.getters["answerList/getLength"]);
       if (this.$store.getters["answerList/getLength"] < 8) {
         alert("未作答完畢");
       } else {
@@ -143,11 +133,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
+}
+
+.button {
+  margin-top: 20px;
 }
 </style>
