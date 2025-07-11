@@ -22,9 +22,6 @@
 <script>
 import CardView from "@/components/CardView.vue";
 import BaseButton, { ButtonColor } from "@/components/BaseButton.vue";
-import { useRouter } from "vue-router";
-
-const router = useRouter();
 
 const cards = [
   {
