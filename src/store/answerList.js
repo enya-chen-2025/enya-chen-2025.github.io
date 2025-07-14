@@ -1,6 +1,7 @@
 const state ={
   ansList:[],
-  rankingList:[]
+  rankingList:[],
+  userName:""
 }
 
 const actions ={}

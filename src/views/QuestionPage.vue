@@ -137,6 +137,8 @@ export default {
       userAns: [],
       ifShow: true,
       rank: [],
+      userName: "",
+      showModal: false,
     };
   },
   methods: {
@@ -161,7 +163,6 @@ export default {
       }
       this.showModal = false;
       this.$store.commit("answerList/setUserName", this.userName);
-      console.log(this.userName);
       this.$router.push({ name: "Result" });
     },
   },
