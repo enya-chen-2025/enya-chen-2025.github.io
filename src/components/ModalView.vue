@@ -2,7 +2,7 @@
   <div class="modal-overlay" v-if="show" @click.self="close">
     <div class="modal-content">
       <div class="modal-title">
-        <h3>Ranking</h3>
+        <h3>{{ titleText }}</h3>
         <button class="modal-btn" @click="close">×</button>
       </div>
       <slot />
@@ -16,6 +16,10 @@ export default {
   props: {
     show: {
       type: Boolean,
+      required: true,
+    },
+    titleText: {
+      type: String,
       required: true,
     },
   },

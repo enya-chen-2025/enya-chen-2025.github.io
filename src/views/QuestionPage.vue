@@ -7,6 +7,7 @@
       :options="card.options"
       :name="card.name"
       :ifShow="ifShow"
+      :titleText="'請選擇正確答案'"
     />
   </div>
 
@@ -15,12 +16,32 @@
       :text="'submit'"
       :background-color="ButtonColor.White"
       @click="submit"
+      class="btn-submit"
     />
+  </div>
+  <div>
+    <Transition name="fade">
+      <ModalView
+        :show="showModal"
+        @close="closeModal"
+        :titleText="'請輸入使用者名稱'"
+      >
+        <input v-model="userName" class="input-name" />
+        <br />
+        <BaseButton
+          :text="'submit'"
+          :background-color="ButtonColor.White"
+          @click="submitName"
+          class="btn-submit-name"
+        />
+      </ModalView>
+    </Transition>
   </div>
 </template>
 
 <script>
 import CardView from "@/components/CardView.vue";
+import ModalView from "@/components/ModalView.vue";
 import BaseButton, { ButtonColor } from "@/components/BaseButton.vue";
 
 const cards = [
@@ -108,7 +129,7 @@ const cards = [
 
 export default {
   name: "QuestionPage",
-  components: { CardView, BaseButton },
+  components: { CardView, BaseButton, ModalView },
   data() {
     return {
       cards,
@@ -119,12 +140,29 @@ export default {
     };
   },
   methods: {
+    closeModal() {
+      this.showModal = false;
+    },
     submit() {
       if (this.$store.getters["answerList/getLength"] < 8) {
         alert("未作答完畢");
       } else {
-        this.$router.push("/result");
+        this.showModal = true;
       }
+    },
+    submitName() {
+      if (
+        !this.userName ||
+        this.userName.trim().length == 0 ||
+        this.userName.length > 10
+      ) {
+        alert("名稱字數不能超過10 且不能空白");
+        return;
+      }
+      this.showModal = false;
+      this.$store.commit("answerList/setUserName", this.userName);
+      console.log(this.userName);
+      this.$router.push({ name: "Result" });
     },
   },
 };
@@ -137,8 +175,22 @@ export default {
   justify-content: center;
   gap: 1rem;
 }
+</style>
 
-.button {
+<style scoped>
+.btn-submit {
   margin-top: 20px;
+}
+
+.input-name {
+  width: 150px;
+  padding: 5px;
+  border-radius: 0.25rem;
+  border: 1px solid black;
+}
+
+.btn-submit-name {
+  width: fit-content;
+  margin-top: 10%;
 }
 </style>
