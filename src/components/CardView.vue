@@ -58,6 +58,9 @@ export default {
       type: Boolean,
       default: false,
     },
+    titleText: {
+      type: String,
+    },
   },
   created() {
     this.ansList = this.$store.state.ansList;
