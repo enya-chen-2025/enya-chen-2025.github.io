@@ -12,8 +12,8 @@
     </div>
     <div>
       <Transition name="fade">
-        <ModalView :show="showModal" @close="closeModal">
-          <p>{{ userName }} 的分數：{{ score }}/8</p>
+        <ModalView :show="showModal" @close="closeModal" :titleText="'Ranking'">
+          <p v-if="userName">{{ userName }} 的分數：{{ score }}/8</p>
           <div
             v-for="(rank, index) in rankList.slice(0, 10)"
             :key="rank.name"
@@ -63,22 +63,15 @@ export default {
     };
   },
   created() {
+    this.userName = this.$store.getters["answerList/getUserName"];
     this.userAns = this.$store.getters["answerList/getWrongAns"];
 
-    let name = "";
-
-    do {
-      name = window.prompt("請輸入你的名字：");
-      if (name.length > 10) {
-        window.alert("字數不能超過10");
-      }
-      if (name.trim().length == 0) {
-        alert("不能空白！");
-      }
-    } while (!name || name.length > 10 || name.trim().length == 0);
-    this.userName = name;
-
     this.score = this.$store.getters["answerList/getScore"];
+    const key = `user-${this.userName}`;
+    if (localStorage.getItem(key)) {
+      const ifOverwrite = confirm("使用者名稱已存在，確認覆蓋舊成績嗎？");
+      if (!ifOverwrite) return;
+    }
     localStorage.setItem("user-" + this.userName, this.score);
 
     this.rankList = this.$store.getters["answerList/getLocalStorage"];
@@ -119,19 +112,5 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 80%;
-}
-
-.all-correct {
-  border-radius: 0.25rem;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>
