@@ -6,6 +6,10 @@ const state ={
 const actions ={}
 
 const getters = {
+   getUserName(state) {
+    return state.userName;
+  },
+
   getLength(state){
     return state.ansList.length
   },
@@ -50,6 +54,9 @@ for(let i=0;i<localStorage.length;i++){
 }
 
 const mutations= {
+  setUserName(state, name) {
+    state.userName = name;
+  },
   addList(state,answer){
     console.log("selected now is: ",answer)
     state.ansList = state.ansList.filter(item => item.name !== answer.name)
