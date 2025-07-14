@@ -82,6 +82,7 @@ export default {
     onClick(e, ans) {
       if (this.currentAns == ans) {
         this.currentAns = "";
+        this.$store.commit("answerList/renewList");
       } else {
         this.currentAns = ans;
 

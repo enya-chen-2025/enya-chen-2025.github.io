@@ -59,10 +59,13 @@ const mutations= {
     state.userName = name;
   },
   addList(state,answer){
-    console.log("selected now is: ",answer)
     state.ansList = state.ansList.filter(item => item.name !== answer.name)
     state.ansList.push(answer)
     console.log("ans list is: ", state.ansList)
+  },
+  renewList(state){
+    state.ansList.pop()
+    console.log("renew:",state.ansList)
   }
 }
 
