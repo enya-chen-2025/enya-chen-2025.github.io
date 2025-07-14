@@ -4,7 +4,7 @@
       <img :src="src" class="card-img-top" />
     </div>
     <div class="card-body">
-      <h4 v-show="ifShow">請選擇正確答案</h4>
+      <h4 v-show="ifShow">{{ titleText }}</h4>
       <div v-for="option in options" class="btns">
         <BaseButton
           :text="option.label"
