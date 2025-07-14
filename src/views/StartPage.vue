@@ -17,7 +17,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 function nextPage(event) {
-  router.push("/question");
+  router.push({ name: "Question" });
 }
 </script>
 
