@@ -14,6 +14,13 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --btn-background-color-green:#9fe2bf;
+  --btn-background-color-red:#f08080;
+  --btn-background-color-white:white;
+  --btn-border-color:gainsboro;
+  --btn-hover-color:#646cff;
+  --modal-content-color:azure;
 }
 
 a {

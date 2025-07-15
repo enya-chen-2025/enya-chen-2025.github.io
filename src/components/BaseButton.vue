@@ -1,13 +1,5 @@
 <template>
-  <button
-    class="button"
-    :class="{
-      'button--green': ButtonColor.Green === backgroundColor,
-      'button--white': ButtonColor.White === backgroundColor,
-      'button--red': ButtonColor.Red === backgroundColor,
-    }"
-    @click="onClick"
-  >
+  <button class="button" :class="buttonBackgroundClass" @click="onClick">
     {{ text }}
   </button>
 </template>
@@ -23,6 +15,7 @@ export const ButtonColor = Object.freeze({
 });
 </script>
 <script setup>
+import { computed } from "vue";
 const props = defineProps({
   text: {
     type: String,
@@ -35,23 +28,42 @@ const props = defineProps({
   },
 
   data: {
-    type: [String, Number],
+    type: [String, Number, Object, Array],
     default: "",
+  },
+
+  btnColor: {
+    type: String,
+  },
+
+  questionIndex: {
+    type: Number,
   },
 });
 
 const emit = defineEmits([ButtonEvent.Click]);
 
 function onClick(event) {
-  emit(ButtonEvent.Click, event, props.data);
+  emit(ButtonEvent.Click, event, props.data, props.questionIndex);
 }
+
+const buttonBackgroundClass = computed(() => {
+  switch (props.btnColor) {
+    case ButtonColor.Green:
+      return "button--green";
+    case ButtonColor.Red:
+      return "button--red";
+    case ButtonColor.White:
+    default:
+      return "button--white";
+  }
+});
 </script>
 
 <style scoped>
 .button {
-  width: 10rem;
-  margin-top: 5px;
-  border: 1px solid gainsboro;
+  width: 160px;
+  border: 1px solid var(--btn-border-color);
   overflow-wrap: break-word;
   white-space: nowrap;
   overflow: hidden;
@@ -59,18 +71,18 @@ function onClick(event) {
 }
 
 .button:hover {
-  border-color: #646cff;
+  border-color: var(--btn-hover-color);
 }
 
 .button--green {
-  background-color: #9fe2bf;
+  background-color: var(--btn-background-color-green);
 }
 
 .button--white {
-  background-color: white;
+  background-color: var(--btn-background-color-white);
 }
 
 .button--red {
-  background-color: #f08080;
+  background-color: var(--btn-background-color-red);
 }
 </style>
