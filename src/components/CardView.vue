@@ -59,10 +59,6 @@ export default {
     data: {
       type: String,
     },
-    isResult: {
-      type: Boolean,
-      default: false,
-    },
     title: {
       type: String,
     },

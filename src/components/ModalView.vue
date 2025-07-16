@@ -66,11 +66,12 @@ export default {
   max-height: fit-content;
   width: 90%;
   overflow: hidden;
+  text-overflow: ellipsis;
   border: 1px solid var(--btn-border-color);
   box-shadow: 2px 4px var(--btn-border-color);
 }
 
-@media (min-width: 400px) {
+@media (min-width: 500px) {
   .modal-content {
     max-width: 500px;
   }
