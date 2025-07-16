@@ -13,11 +13,12 @@
 <script setup>
 import BaseButton, { ButtonColor } from "../components/BaseButton.vue";
 import { useRouter } from "vue-router";
+import { ROUTE_PATH } from "@/router/routePath.js";
 
 const router = useRouter();
 
 function nextPage(event) {
-  router.push({ name: "Question" });
+  router.push(ROUTE_PATH.QUESTION);
 }
 </script>
 

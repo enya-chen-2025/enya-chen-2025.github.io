@@ -53,6 +53,7 @@
 import CardView from "@/components/CardView.vue";
 import ModalView from "@/components/ModalView.vue";
 import BaseButton, { ButtonColor } from "@/components/BaseButton.vue";
+import { ROUTE_PATH } from "@/router/routePath.js";
 
 export default {
   name: "QuestionPage",
@@ -109,7 +110,7 @@ export default {
       }
       this.isShowModal = false;
       this.$store.commit("questions/setUserName", this.userName);
-      this.$router.push({ name: "Result" });
+      this.$router.push(ROUTE_PATH.RESULT);
     },
     getUpdatedOptions(options) {
       const updated = options.map((opt) => {
