@@ -1,9 +1,13 @@
 <template>
   <div>
-    <div class="all-correct" v-show="score == 8">
-      <p>\ 恭喜全部答對 /</p>
+    <div class="user-info">
+      <p v-if="userName">
+        {{ userName }} 的分數：{{ score }}/{{ questions.length }}
+      </p>
+      <p v-if="score == questions.length">恭喜 {{ userName }} 全部答對🎉</p>
     </div>
-    <div class="check-rank">
+
+    <!-- <div class="check-rank">
       <BaseButton
         :text="'查看分數&排行'"
         :background-color="ButtonColor.White"
@@ -12,105 +16,201 @@
     </div>
     <div>
       <Transition name="fade">
-        <ModalView :show="showModal" @close="closeModal" :titleText="'Ranking'">
-          <p v-if="userName">{{ userName }} 的分數：{{ score }}/8</p>
+        <ModalView
+          :isShowModal="isShowModal"
+          @close="closeModal"
+          :title="'Ranking'"
+        >
+          <p v-if="userName">
+            {{ userName }} 的分數：{{ score }}/{{ questions.length }}
+          </p>
           <div
-            v-for="(rank, index) in rankList.slice(0, 10)"
-            :key="rank.name"
+            v-for="record in records.slice(0, 10)"
+            :key="record.time"
             class="modal-list"
           >
-            <h3>
-              {{ index + 1 }}
-            </h3>
+            <h3></h3>
             <h4>
-              {{ rank.name }}
+              {{ record.name }}
             </h4>
-            <h4>{{ rank.value }}分</h4>
+            <h4>{{ record.value }}分</h4>
           </div>
         </ModalView>
       </Transition>
+    </div> -->
+    <div class="table-style">
+      <table class="table" title="ranking list">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Score</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(record, index) in records.slice(0, 10)">
+            <th scope="row">{{ index + 1 }}</th>
+            <td v-for="r in record">
+              {{ r }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  </div>
-  <div class="cards">
-    <CardView
-      v-for="ans in userAns"
-      :src="ans.img"
-      :ifShow="ifShow"
-      :options="ans.options"
-      :name="ans.name"
-      :isResult="true"
-    />
+    <div class="cards">
+      <CardView
+        v-for="(card, index) in wrongList"
+        :key="card.value"
+        :src="card.img"
+        :name="card.name"
+        :isShowTitle="isShowTitle"
+        :options="card.options"
+        :questionIndex="index"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import CardView from "@/components/CardView.vue";
-import ModalView from "../components/ModalView.vue";
+import ModalView from "@/components/ModalView.vue";
 import BaseButton, { ButtonColor } from "@/components/BaseButton.vue";
+import questions from "@/store/questions";
 
 export default {
   name: "QuestionPage",
   components: { CardView, ModalView, BaseButton },
   data() {
     return {
-      userAns: [],
-      score: 0,
-      ifShow: false,
-      userName: "",
-      rankList: [],
-      showModal: false,
+      isShowTitle: false,
+      isShowModal: false,
       ButtonColor,
+      recordList: [],
+      userName: "",
     };
   },
   created() {
-    this.userName = this.$store.getters["answerList/getUserName"];
-    this.userAns = this.$store.getters["answerList/getWrongAns"];
+    this.userName = this.$store.getters["questions/getUserName"];
 
-    this.score = this.$store.getters["answerList/getScore"];
-    const key = `user-${this.userName}`;
-    if (localStorage.getItem(key)) {
-      const ifOverwrite = confirm("使用者名稱已存在，確認覆蓋舊成績嗎？");
-      if (!ifOverwrite) return;
-    }
-    localStorage.setItem("user-" + this.userName, this.score);
+    this.questions.forEach((question) => {
+      question.options.forEach((option) => {
+        if (option.isCorrect && !option.isSelected) {
+          option.btnColor = ButtonColor.Green;
+        } else if (!option.isCorrect && option.isSelected) {
+          option.btnColor = ButtonColor.Red;
+        }
+      });
+    });
 
-    this.rankList = this.$store.getters["answerList/getLocalStorage"];
-    console.log(this.rankList);
+    this.setRecords();
+  },
+  computed: {
+    questions() {
+      return this.$store.getters["questions/getQuestions"];
+    },
+    score() {
+      return this.questions.reduce((total, question) => {
+        return (
+          total +
+          question.options.filter((opt) => opt.isCorrect && opt.isSelected)
+            .length
+        );
+      }, 0);
+    },
+    wrongList() {
+      return this.questions.filter((question) =>
+        question.options.some((opt) => !opt.isCorrect && opt.isSelected)
+      );
+    },
+    records() {
+      const records = JSON.parse(localStorage.getItem("rankingData")) || [];
+      return records.map((record) => {
+        return {
+          ...record,
+          time: new Date(record.time).toDateString(),
+        };
+      });
+    },
   },
   methods: {
     openModal() {
-      this.showModal = true;
+      this.isShowModal = true;
     },
     closeModal() {
-      console.log("modal close...");
-      this.showModal = false;
+      this.isShowModal = false;
+    },
+    setRecords() {
+      if (this.userName) {
+        const newRecord = {
+          userName: this.userName,
+          score: this.score,
+          time: Date.now(),
+        };
+
+        const records = JSON.parse(localStorage.getItem("rankingData")) || [];
+
+        const existingIndex = records.findIndex(
+          (r) => r.userName == newRecord.userName
+        );
+        if (existingIndex != -1) {
+          records[existingIndex] = newRecord;
+        } else {
+          records.push(newRecord);
+        }
+
+        records.sort((a, b) => {
+          if (b.score !== a.score) {
+            return b.score - a.score;
+          } else {
+            return b.time - a.time;
+          }
+        });
+
+        localStorage.setItem("rankingData", JSON.stringify(records));
+      }
     },
   },
 };
 </script>
 
 <style scoped>
-.check-rank {
-  margin-bottom: 50px;
+.user-info {
+  margin-bottom: 16px;
 }
 
-.modal-list {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  max-width: 60%;
-  margin-left: auto;
-  margin-right: auto;
+table {
+  border-collapse: collapse;
 }
 
-.modal-list > * {
-  margin-block-start: 0;
-  margin-block-end: 0;
-}
-
-.rank-list {
+th {
+  width: 80px;
+  padding: 5px;
+  text-align: left;
+  margin-left: 8px;
+  border-bottom: 1px solid var(--btn-border-color);
+  overflow-wrap: break-word;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 80%;
+}
+
+td {
+  width: 130px;
+  padding: 5px;
+  text-align: left;
+  margin-left: 12px;
+  border-bottom: 1px solid var(--btn-border-color);
+  overflow-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table-style {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
 }
 </style>

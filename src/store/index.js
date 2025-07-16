@@ -1,8 +1,8 @@
-import { createStore } from 'vuex'
-import answerList from './answerList'
+import { createStore } from "vuex";
+import questions from "./questions";
 
 export default createStore({
   modules: {
-   answerList
+    questions,
   },
-})
+});

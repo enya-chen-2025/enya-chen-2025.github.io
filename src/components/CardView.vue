@@ -4,13 +4,17 @@
       <img :src="src" class="card-img-top" />
     </div>
     <div class="card-body">
-      <h4 v-show="ifShow">{{ titleText }}</h4>
+      <h4 v-show="isShowTitle" class="card-title" :title="cardTitle">
+        {{ title }}
+      </h4>
       <div v-for="option in options" class="btns">
         <BaseButton
           :text="option.label"
           :data="option.value"
-          :background-color="btnColor(option, isResult, currentAns)"
+          :btnColor="option.btnColor"
+          :questionIndex="questionIndex"
           @click="onClick"
+          :btnTitle="option.label"
         />
       </div>
     </div>
@@ -18,7 +22,7 @@
 </template>
 
 <script>
-import BaseButton, { ButtonColor } from "@/components/BaseButton.vue";
+import BaseButton, { ButtonColor } from "./BaseButton.vue";
 
 export default {
   name: "CardView",
@@ -27,8 +31,6 @@ export default {
     return {
       ButtonColor,
       currentAns: "",
-      ansList: [],
-      optionIndex: 0,
     };
   },
   props: {
@@ -44,7 +46,10 @@ export default {
       type: String,
       required: true,
     },
-    ifShow: {
+    cardTitle: {
+      type: String,
+    },
+    isShowTitle: {
       type: Boolean,
       required: true,
     },
@@ -58,46 +63,16 @@ export default {
       type: Boolean,
       default: false,
     },
-    titleText: {
+    title: {
       type: String,
     },
-  },
-  created() {
-    this.ansList = this.$store.state.ansList;
+    questionIndex: {
+      type: Number,
+    },
   },
   methods: {
-    btnColor(option, isResult, currentAns) {
-      if (isResult) {
-        return option.isAns
-          ? ButtonColor.Green
-          : option.isAns == option.isSelected
-          ? ButtonColor.White
-          : ButtonColor.Red;
-      } else {
-        return currentAns === option.value
-          ? ButtonColor.Green
-          : ButtonColor.White;
-      }
-    },
-    onClick(e, ans) {
-      if (this.currentAns == ans) {
-        this.currentAns = "";
-        this.$store.commit("answerList/renewList");
-      } else {
-        this.currentAns = ans;
-
-        this.optionIndex = this.options.findIndex(
-          (option) => option.value === this.currentAns
-        );
-
-        this.$store.commit("answerList/addList", {
-          name: this.name,
-          value: this.currentAns,
-          img: this.src,
-          isAns: this.options[this.optionIndex].isAns,
-          options: this.options,
-        });
-      }
+    onClick(e, value, questionIndex) {
+      return this.$emit("optionClick", e, value, questionIndex);
     },
   },
 };
@@ -105,13 +80,12 @@ export default {
 
 <style>
 .card {
-  width: 14rem;
-  position: relative;
+  width: 240px;
   display: flex;
   flex-direction: column;
   background-color: white;
-  border: 1px solid gainsboro;
-  border-radius: 0.25rem;
+  border: 1px solid var(--btn-border-color);
+  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -131,10 +105,17 @@ export default {
   transform: scale(1.25);
 }
 
+.card-title {
+  overflow-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .card-img-top {
   width: 100%;
   height: 100%;
-  border-radius: 0.25rem;
+  border-radius: 8px;
   margin: auto;
   display: block;
   object-fit: cover;
@@ -142,6 +123,6 @@ export default {
 }
 
 .btns {
-  margin-top: 5%;
+  margin-top: 16px;
 }
 </style>
