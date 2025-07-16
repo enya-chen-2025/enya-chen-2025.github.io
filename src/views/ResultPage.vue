@@ -6,38 +6,6 @@
       </p>
       <p v-if="score == questions.length">恭喜 {{ userName }} 全部答對🎉</p>
     </div>
-
-    <!-- <div class="check-rank">
-      <BaseButton
-        :text="'查看分數&排行'"
-        :background-color="ButtonColor.White"
-        @click="openModal"
-      />
-    </div>
-    <div>
-      <Transition name="fade">
-        <ModalView
-          :isShowModal="isShowModal"
-          @close="closeModal"
-          :title="'Ranking'"
-        >
-          <p v-if="userName">
-            {{ userName }} 的分數：{{ score }}/{{ questions.length }}
-          </p>
-          <div
-            v-for="record in records.slice(0, 10)"
-            :key="record.time"
-            class="modal-list"
-          >
-            <h3></h3>
-            <h4>
-              {{ record.name }}
-            </h4>
-            <h4>{{ record.value }}分</h4>
-          </div>
-        </ModalView>
-      </Transition>
-    </div> -->
     <div class="table-style">
       <table class="table" title="ranking list">
         <thead>
