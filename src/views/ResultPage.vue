@@ -54,7 +54,6 @@ export default {
       isShowTitle: false,
       isShowModal: false,
       ButtonColor,
-      recordList: [],
       userName: "",
     };
   },
