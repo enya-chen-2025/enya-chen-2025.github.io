@@ -1,5 +1,10 @@
 <template>
-  <button class="button" :class="buttonBackgroundClass" @click="onClick">
+  <button
+    class="button"
+    :class="buttonBackgroundClass"
+    @click="onClick"
+    :title="btnTitle"
+  >
     {{ text }}
   </button>
 </template>
@@ -20,6 +25,9 @@ const props = defineProps({
   text: {
     type: String,
     default: "",
+  },
+  btnTitle: {
+    type: String,
   },
 
   backgroundColor: {
@@ -68,6 +76,7 @@ const buttonBackgroundClass = computed(() => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: background-color 0.3s ease;
 }
 
 .button:hover {
