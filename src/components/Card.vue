@@ -4,17 +4,17 @@
       <img :src="src" class="card-img-top" />
     </div>
     <div class="card-body">
-      <h4 v-show="isShowTitle" class="card-title" :title="cardTitle">
+      <h4 v-show="isShowTitle" class="card-title" :title="cardTooltip">
         {{ title }}
       </h4>
-      <div v-for="option in options" class="btns">
+      <div v-for="option in options" class="btns" :key="option.value">
         <BaseButton
           :text="option.label"
           :data="option.value"
           :btnColor="option.btnColor"
           :questionIndex="questionIndex"
           @click="onClick"
-          :btnTitle="option.label"
+          :btnTooltip="option.label"
         />
       </div>
     </div>
@@ -25,7 +25,7 @@
 import BaseButton, { ButtonColor } from "./BaseButton.vue";
 
 export default {
-  name: "CardView",
+  name: "Card",
   components: { BaseButton },
   data() {
     return {
@@ -36,34 +36,40 @@ export default {
   props: {
     src: {
       type: String,
-      required: true,
+      default:
+        "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small_2x/default-avatar-icon-of-social-media-user-vector.jpg",
     },
     options: {
       type: Array,
-      required: true,
+      default: [],
     },
     name: {
       type: String,
-      required: true,
+      default: "",
     },
-    cardTitle: {
+    cardTooltip: {
       type: String,
+      default: "",
     },
     isShowTitle: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     text: {
       type: String,
+      default: "",
     },
     data: {
       type: String,
+      default: "",
     },
     title: {
       type: String,
+      default: "",
     },
     questionIndex: {
       type: Number,
+      default: 0,
     },
   },
   methods: {
@@ -74,13 +80,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .card {
   width: 240px;
   display: flex;
   flex-direction: column;
   background-color: white;
-  border: 1px solid var(--btn-border-color);
+  border: 1px solid var(--system-color-gray);
   border-radius: 8px;
   overflow: hidden;
 }

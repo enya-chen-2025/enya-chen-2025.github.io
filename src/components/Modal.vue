@@ -1,9 +1,9 @@
 <template>
-  <div class="modal-overlay" v-if="isShowModal" @click.self="close">
+  <div class="modal-overlay" v-if="isShowModal" @click.self="onClose">
     <div class="modal-content">
       <div class="modal-title">
         <h3>{{ title }}</h3>
-        <button class="modal-btn" @click="close">
+        <button class="modal-btn" @click="onClose">
           <span class="material-symbols-outlined"> close </span>
         </button>
       </div>
@@ -14,21 +14,21 @@
 
 <script>
 export default {
-  name: "ModalView",
+  name: "Modal",
   props: {
     isShowModal: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     title: {
       type: String,
-      required: true,
+      default: "",
     },
   },
-  emits: ["close"],
+  emits: ["onClose"],
   methods: {
     close() {
-      this.$emit("close");
+      this.$emit("onClose");
     },
   },
 };
@@ -59,7 +59,7 @@ export default {
 .modal-content {
   margin-top: 20px;
   position: relative;
-  background-color: var(--modal-content-color);
+  background-color: var(--system-color-white-smoke);
   padding: 16px;
   border-radius: 8px;
   max-width: 250px;
@@ -67,8 +67,8 @@ export default {
   width: 90%;
   overflow: hidden;
   text-overflow: ellipsis;
-  border: 1px solid var(--btn-border-color);
-  box-shadow: 2px 4px var(--btn-border-color);
+  border: 1px solid var(--system-color-gray);
+  box-shadow: 2px 4px var(--system-color-gray);
 }
 
 @media (min-width: 500px) {
