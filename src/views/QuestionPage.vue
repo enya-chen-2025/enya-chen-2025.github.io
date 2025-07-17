@@ -129,13 +129,23 @@ export default {
         const targetOption = options.find(
           (o) => o.value === selectedOption.value
         );
+
         if (targetOption) {
-          options.forEach((opt) => {
-            opt.isSelected = opt.value === selectedOption.value;
-            opt.btnColor = opt.isSelected
-              ? ButtonColor.Green
-              : ButtonColor.White;
-          });
+          const wasSelected = targetOption.isSelected;
+
+          if (wasSelected) {
+            options.forEach((opt) => {
+              opt.isSelected = false;
+              opt.btnColor = ButtonColor.White;
+            });
+          } else {
+            options.forEach((opt) => {
+              opt.isSelected = opt.value === selectedOption.value;
+              opt.btnColor = opt.isSelected
+                ? ButtonColor.Green
+                : ButtonColor.White;
+            });
+          }
 
           break;
         }
@@ -160,9 +170,5 @@ export default {
 .btn-submit-name {
   width: fit-content;
   margin-top: 20px;
-}
-
-.btns {
-  margin-top: 16px;
 }
 </style>

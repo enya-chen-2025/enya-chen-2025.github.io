@@ -94,6 +94,10 @@ button:focus-visible {
   gap: 16px;
 }
 
+.btns {
+  margin-top: 16px;
+}
+
 #app {
   max-width: 100%;
   margin: 0 auto;

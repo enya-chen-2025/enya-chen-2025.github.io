@@ -28,14 +28,20 @@
     </div>
     <div class="cards">
       <Card
-        v-for="(card, index) in wrongList"
+        v-for="card in wrongList"
         :key="card.value"
         :src="card.img"
-        :name="card.name"
         :isShowTitle="isShowTitle"
-        :options="card.options"
-        :questionIndex="index"
-      />
+      >
+        <div v-for="option in card.options" class="btns" :key="option.value">
+          <BaseButton
+            :text="option.label"
+            :data="option"
+            :btnColor="option.btnColor"
+            :btnTooltip="option.isCorrect"
+          />
+        </div>
+      </Card>
     </div>
   </div>
 </template>
