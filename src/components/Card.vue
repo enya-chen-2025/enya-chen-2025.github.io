@@ -15,7 +15,6 @@
 <script>
 export default {
   name: "Card",
-  data() {},
   props: {
     src: {
       type: String,
