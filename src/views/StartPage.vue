@@ -21,5 +21,3 @@ function nextPage(event) {
   router.push(ROUTE_PATH.QUESTION);
 }
 </script>
-
-<style scoped></style>

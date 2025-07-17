@@ -7,45 +7,20 @@
       <h4 v-show="isShowTitle" class="card-title" :title="cardTooltip">
         {{ title }}
       </h4>
-      <div v-for="option in options" class="btns" :key="option.value">
-        <BaseButton
-          :text="option.label"
-          :data="option.value"
-          :btnColor="option.btnColor"
-          :questionIndex="questionIndex"
-          @click="onClick"
-          :btnTooltip="option.label"
-        />
-      </div>
+      <slot />
     </div>
   </div>
 </template>
 
 <script>
-import BaseButton, { ButtonColor } from "./BaseButton.vue";
-
 export default {
   name: "Card",
-  components: { BaseButton },
-  data() {
-    return {
-      ButtonColor,
-      currentAns: "",
-    };
-  },
+  data() {},
   props: {
     src: {
       type: String,
       default:
         "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small_2x/default-avatar-icon-of-social-media-user-vector.jpg",
-    },
-    options: {
-      type: Array,
-      default: [],
-    },
-    name: {
-      type: String,
-      default: "",
     },
     cardTooltip: {
       type: String,
@@ -55,26 +30,9 @@ export default {
       type: Boolean,
       default: false,
     },
-    text: {
-      type: String,
-      default: "",
-    },
-    data: {
-      type: String,
-      default: "",
-    },
     title: {
       type: String,
       default: "",
-    },
-    questionIndex: {
-      type: Number,
-      default: 0,
-    },
-  },
-  methods: {
-    onClick(e, value, questionIndex) {
-      return this.$emit("optionClick", e, value, questionIndex);
     },
   },
 };
@@ -122,9 +80,5 @@ export default {
   display: block;
   object-fit: cover;
   object-position: center center;
-}
-
-.btns {
-  margin-top: 16px;
 }
 </style>

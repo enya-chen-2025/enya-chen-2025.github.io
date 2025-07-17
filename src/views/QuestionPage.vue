@@ -1,17 +1,23 @@
 <template>
   <div class="cards">
-    <CardView
-      v-for="(card, index) in questions"
+    <Card
+      v-for="card in questions"
       :key="card.value"
       :src="card.img"
-      :name="card.name"
       :isShowTitle="isShowTitle"
       :title="'請選擇正確答案'"
-      :options="getUpdatedOptions(card.options)"
-      :questionIndex="index"
-      @optionClick="onClick"
-      :cardTitle="'這是cardTitle'"
-    />
+      :cardTooltip="'請選擇正確答案'"
+    >
+      <div v-for="option in card.options" class="btns" :key="option.value">
+        <BaseButton
+          :text="option.label"
+          :data="option"
+          :btnColor="option.btnColor"
+          @click="onClick"
+          :btnTooltip="option.label"
+        />
+      </div>
+    </Card>
   </div>
   <div class="button">
     <BaseButton
@@ -23,9 +29,9 @@
   </div>
   <div>
     <Transition name="fade">
-      <ModalView
+      <Modal
         :isShowModal="isShowModal"
-        @close="closeModal"
+        @onClose="closeModal"
         :title="'請輸入使用者名稱'"
       >
         <input v-model="userName" class="input-name" />
@@ -36,40 +42,45 @@
           @click="submitName"
           class="btn-submit-name"
         />
-      </ModalView>
+      </Modal>
     </Transition>
+  </div>
+  <div>
     <Transition name="fade">
-      <ModalView
+      <Modal
         :isShowModal="isShowAlert"
-        @close="closeModal"
+        @onClose="closeModal"
         :title="alertText"
       >
-      </ModalView>
+      </Modal>
     </Transition>
   </div>
 </template>
 
 <script>
-import CardView from "@/components/CardView.vue";
-import ModalView from "@/components/ModalView.vue";
+import Card from "@/components/Card.vue";
+import Modal from "@/components/Modal.vue";
 import BaseButton, { ButtonColor } from "@/components/BaseButton.vue";
 import { ROUTE_PATH } from "@/router/routePath.js";
 
 export default {
   name: "QuestionPage",
-  components: { CardView, BaseButton, ModalView },
+  components: { Card, BaseButton, Modal },
   data() {
     return {
       ButtonColor,
-      userAns: [],
-      isShowTitle: true,
-      rank: [],
       userName: "",
+      isShowTitle: true,
       isShowModal: false,
-      currentAns: "",
       isShowAlert: false,
       alertText: "",
     };
+  },
+  props: {
+    data: {
+      type: Object,
+      default: "",
+    },
   },
   computed: {
     questions() {
@@ -95,12 +106,12 @@ export default {
       }
     },
     submitName() {
-      const maxUserNameLength = 10;
+      const MaxUserNameLength = 10;
 
       if (
         !this.userName ||
-        this.userName.trim().length == 0 ||
-        this.userName.length > maxUserNameLength
+        this.userName.trim().length === 0 ||
+        this.userName.length > MaxUserNameLength
       ) {
         this.alertText = "名稱字數不能超過10 且不能空白";
         this.isShowModal = false;
@@ -112,46 +123,27 @@ export default {
       this.$store.commit("questions/setUserName", this.userName);
       this.$router.push(ROUTE_PATH.RESULT);
     },
-    getUpdatedOptions(options) {
-      const updated = options.map((opt) => {
-        return {
-          ...opt,
-          isSelected: this.currentAns == opt.value,
-        };
-      });
-      return updated;
-    },
+    onClick(e, selectedOption) {
+      for (const question of this.questions) {
+        const options = question.options;
+        const targetOption = options.find(
+          (o) => o.value === selectedOption.value
+        );
+        if (targetOption) {
+          options.forEach((opt) => {
+            opt.isSelected = opt.value === selectedOption.value;
+            opt.btnColor = opt.isSelected
+              ? ButtonColor.Green
+              : ButtonColor.White;
+          });
 
-    onClick(e, ans, questionIndex) {
-      const options = this.questions[questionIndex].options;
-      options.forEach((o) => {
-        o.isSelected = false;
-        o.btnColor = ButtonColor.White;
-      });
-      if (this.currentAns == ans) {
-        this.currentAns = "";
-      } else {
-        this.currentAns = ans;
-
-        const selectedOption = options.find((o) => o.value == this.currentAns);
-        if (selectedOption) {
-          selectedOption.isSelected = true;
-          selectedOption.btnColor = ButtonColor.Green;
+          break;
         }
       }
     },
   },
 };
 </script>
-
-<style>
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;
-}
-</style>
 
 <style scoped>
 .btn-submit {
@@ -168,5 +160,9 @@ export default {
 .btn-submit-name {
   width: fit-content;
   margin-top: 20px;
+}
+
+.btns {
+  margin-top: 16px;
 }
 </style>

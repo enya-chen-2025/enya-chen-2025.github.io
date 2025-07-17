@@ -17,9 +17,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(record, index) in records.slice(0, 10)">
+          <tr v-for="(record, index) in records.slice(0, 10)" :key="record">
             <th scope="row">{{ index + 1 }}</th>
-            <td v-for="r in record">
+            <td v-for="r in record" :key="r.name">
               {{ r }}
             </td>
           </tr>
@@ -27,7 +27,7 @@
       </table>
     </div>
     <div class="cards">
-      <CardView
+      <Card
         v-for="(card, index) in wrongList"
         :key="card.value"
         :src="card.img"
@@ -41,14 +41,13 @@
 </template>
 
 <script>
-import CardView from "@/components/CardView.vue";
-import ModalView from "@/components/ModalView.vue";
+import Card from "@/components/Card.vue";
 import BaseButton, { ButtonColor } from "@/components/BaseButton.vue";
 import questions from "@/store/questions";
 
 export default {
   name: "QuestionPage",
-  components: { CardView, ModalView, BaseButton },
+  components: { Card, BaseButton },
   data() {
     return {
       isShowTitle: false,
@@ -118,7 +117,7 @@ export default {
         const records = JSON.parse(localStorage.getItem("rankingData")) || [];
 
         const existingIndex = records.findIndex(
-          (r) => r.userName == newRecord.userName
+          (r) => r.userName === newRecord.userName
         );
         if (existingIndex != -1) {
           records[existingIndex] = newRecord;
@@ -155,7 +154,7 @@ th {
   padding: 5px;
   text-align: left;
   margin-left: 8px;
-  border-bottom: 1px solid var(--btn-border-color);
+  border-bottom: 1px solid var(--system-color-gray);
   overflow-wrap: break-word;
   white-space: nowrap;
   overflow: hidden;
@@ -167,7 +166,7 @@ td {
   padding: 5px;
   text-align: left;
   margin-left: 12px;
-  border-bottom: 1px solid var(--btn-border-color);
+  border-bottom: 1px solid var(--system-color-gray);
   overflow-wrap: break-word;
   white-space: nowrap;
   overflow: hidden;

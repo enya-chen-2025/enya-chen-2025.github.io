@@ -3,7 +3,7 @@
     class="button"
     :class="buttonBackgroundClass"
     @click="onClick"
-    :title="btnTitle"
+    :title="btnTooltip"
   >
     {{ text }}
   </button>
@@ -26,33 +26,32 @@ const props = defineProps({
     type: String,
     default: "",
   },
-  btnTitle: {
+  btnTooltip: {
     type: String,
+    default: "",
   },
-
   backgroundColor: {
     type: String,
     default: ButtonColor.White,
   },
-
   data: {
-    type: [String, Number, Object, Array],
+    type: [String, Number, Object, Array, Boolean, undefined, null],
     default: "",
   },
-
   btnColor: {
     type: String,
+    default: ButtonColor.White,
   },
-
   questionIndex: {
     type: Number,
+    default: 0,
   },
 });
 
 const emit = defineEmits([ButtonEvent.Click]);
 
 function onClick(event) {
-  emit(ButtonEvent.Click, event, props.data, props.questionIndex);
+  emit(ButtonEvent.Click, event, props.data);
 }
 
 const buttonBackgroundClass = computed(() => {
@@ -71,7 +70,7 @@ const buttonBackgroundClass = computed(() => {
 <style scoped>
 .button {
   width: 160px;
-  border: 1px solid var(--btn-border-color);
+  border: 1px solid var(--system-color-gray);
   overflow-wrap: break-word;
   white-space: nowrap;
   overflow: hidden;
@@ -80,18 +79,18 @@ const buttonBackgroundClass = computed(() => {
 }
 
 .button:hover {
-  border-color: var(--btn-hover-color);
+  border-color: var(--system-color-medium-slate-blue);
 }
 
 .button--green {
-  background-color: var(--btn-background-color-green);
+  background-color: var(--system-color-green);
 }
 
 .button--white {
-  background-color: var(--btn-background-color-white);
+  background-color: var(--system-color-white);
 }
 
 .button--red {
-  background-color: var(--btn-background-color-red);
+  background-color: var(--system-color-red);
 }
 </style>

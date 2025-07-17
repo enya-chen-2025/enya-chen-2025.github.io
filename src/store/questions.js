@@ -6,7 +6,7 @@ const state = () => ({
     {
       name: "萬萬",
       value: "agnes.kao",
-      img: "/src/assets/question/img_agnes.jpeg",
+      img: "/src/assets/question/img_agnes.jpg",
       options: [
         {
           label: "萬萬",
@@ -22,7 +22,7 @@ const state = () => ({
     {
       name: "brian",
       value: "brian.chao",
-      img: "/src/assets/question/img_brian.png",
+      img: "/src/assets/question/img_brian.jpg",
       options: [
         {
           label: "baobao",
@@ -123,7 +123,7 @@ const state = () => ({
     {
       name: "william",
       value: "william.lu",
-      img: "/src/assets/question/img_william.jpeg",
+      img: "/src/assets/question/img_william.jpg",
       options: [
         {
           label: "william",
@@ -145,9 +145,7 @@ const state = () => ({
 
 const getters = {
   getQuestions: (state) => state.questions,
-  getUserName(state) {
-    return state.userName;
-  },
+  getUserName: (state) => state.userName,
 };
 
 const mutations = {
