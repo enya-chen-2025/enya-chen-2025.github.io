@@ -15,12 +15,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --btn-background-color-green:#9fe2bf;
-  --btn-background-color-red:#f08080;
-  --btn-background-color-white:white;
-  --btn-border-color:gainsboro;
-  --btn-hover-color:#646cff;
-  --modal-content-color:	#F5F5F5;
+  --system-color-green:#9fe2bf;
+  --system-color-red:#f08080;
+  --system-color-white:white;
+  --system-color-gray:gainsboro; 
+  /* gray border */
+  --system-color-medium-slate-blue :#646cff;
+  --system-color-white-smoke:#F5F5F5;
 }
 
 a {
@@ -84,6 +85,13 @@ button:focus-visible {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
 }
 
 #app {
