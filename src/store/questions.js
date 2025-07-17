@@ -6,7 +6,7 @@ const state = () => ({
     {
       name: "萬萬",
       value: "agnes.kao",
-      img: "/src/assets/question/img_agnes.jpg",
+      img: new URL('@/assets/question/img_agnes.jpg', import.meta.url).href,
       options: [
         {
           label: "萬萬",
@@ -22,7 +22,7 @@ const state = () => ({
     {
       name: "brian",
       value: "brian.chao",
-      img: "/src/assets/question/img_brian.jpg",
+      img: new URL('@/assets/question/img_brian.jpg', import.meta.url).href,
       options: [
         {
           label: "baobao",
@@ -44,7 +44,7 @@ const state = () => ({
     {
       name: "enya",
       value: "enya.chen",
-      img: "/src/assets/question/img_enya.jpg",
+      img: new URL('@/assets/question/img_enya.jpg', import.meta.url).href,
       options: [
         {
           label: "enya",
@@ -60,7 +60,7 @@ const state = () => ({
     {
       name: "june",
       value: "june.wang",
-      img: "/src/assets/question/img_june.jpg",
+      img: new URL('@/assets/question/img_june.jpg', import.meta.url).href,
       options: [
         { label: "july", value: "july", isCorrect: false, isSelected: false,btnColor: ButtonColor.White },
         { label: "may", value: "may", isCorrect: false, isSelected: false,btnColor: ButtonColor.White },
@@ -76,7 +76,7 @@ const state = () => ({
     {
       name: "nick",
       value: "nick.chen",
-      img: "/src/assets/question/img_nick.jpg",
+      img: new URL('@/assets/question/img_nick.jpg', import.meta.url).href,
       options: [
         { label: "nancy", value: "nancy", isCorrect: false, isSelected: false,btnColor: ButtonColor.White },
         { label: "neil", value: "neil", isCorrect: false, isSelected: false,btnColor: ButtonColor.White },
@@ -92,7 +92,7 @@ const state = () => ({
     {
       name: "pedro",
       value: "pedro.yang",
-      img: "/src/assets/question/img_pedro.jpg",
+      img: new URL('@/assets/question/img_pedro.jpg', import.meta.url).href,
       options: [
         { label: "pepe", value: "pepe", isCorrect: false, isSelected: false,btnColor: ButtonColor.White },
         {
@@ -108,7 +108,7 @@ const state = () => ({
     {
       name: "steven",
       value: "steven.chen",
-      img: "/src/assets/question/img_steven.jpg",
+      img: new URL('@/assets/question/img_steven.jpg', import.meta.url).href,
       options: [
         {
           label: "steven",
@@ -123,7 +123,7 @@ const state = () => ({
     {
       name: "william",
       value: "william.lu",
-      img: "/src/assets/question/img_william.jpg",
+      img: new URL('@/assets/question/img_william.jpg', import.meta.url).href,
       options: [
         {
           label: "william",
